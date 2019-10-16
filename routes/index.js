@@ -63,11 +63,42 @@ router.post("/search/",function(req,res,next){
 
       var flrtname = req.body.fltrname;     //fetch value of name from ejs search from
       var flrtemail = req.body.fltremail;
+      var flrtetype = req.body.fltremptype;
 
-  // search from database using or opertaions
-      var employeeFilter=empModel.find({$or:[{name:flrtname},{email:flrtemail}]});
+      if(flrtname!='' && flrtemail !='' && flrtetype !=''){
 
-      // execute the query
+        var flterparameter = {$and:[{name:flrtname},
+        {$and:[{email:flrtemail},{etype:flrtetype}]}
+        ]}
+
+      }
+
+      else if(flrtname!= '' && flrtemail == '' && flrtetype!= ''){
+        var flterparameter = {$and:[{name:flrtname},{etype:flrtetype}]}
+
+      }
+      else if(flrtname == '' && flrtemail != '' && flrtetype != ''){
+        var flterparameter = {$and:[{email:flrtemail},{etype:flrtetype}]}
+        
+      }
+      else if(flrtname =='' && flrtemail =='' && flrtetype !=''){
+        var flterparameter = {etype:flrtetype}
+
+      }
+
+      else{
+        var flterparameter={}
+      }
+
+        console.log(flterparameter);
+      var employeeFilter=empModel.find(flterparameter);
+     
+
+    // console.log("Email:"+flrtemail);
+    // console.log("Name: "+flrtname);
+    // console.log("etype: "+flrtetype);
+
+
       employeeFilter.exec(function(err,data){               
         if(err) throw err;                            
           res.render('index', { title: 'Employee Records',records:data}); 

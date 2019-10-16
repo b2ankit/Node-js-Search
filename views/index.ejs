@@ -19,7 +19,7 @@
       <div class="col-md-12">
       <form action="/search/" id="EmployeeForm" class="form-horizontal" method="post"  role="form">
                   
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="name" class="col-md-12 control-label">By Name</label>
             <div class="col-md-12">
@@ -27,7 +27,7 @@
             </div>
         </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
         <div class="form-group">
             <label for="email" class="col-md-12 control-label">By Email</label>
             <div class="col-md-12">
@@ -35,7 +35,17 @@
             </div>
         </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+        <div class="form-group">
+            <label for="email" class="col-md-12 control-label">By Employee Type</label>
+            <div class="col-md-12">
+                <select class="form-control" name="fltremptype">
+                    <option value="Hourly">Hourly</option>
+                    <option value="Fixed">Fixed</option>
+                  </select></div>
+        </div>
+        </div>
+        <div class="col-md-3">
         <div class="form-group">
             <label for="email" class="col-md-12 control-label">&nbsp;</label>
            
@@ -63,6 +73,7 @@
           </tr>
         </thead>
         <tbody>
+          <% if(records.length >0){ %>
           <% records.forEach(function(row) {%>
           <tr>
             <td><%= row.name %></td>
@@ -72,7 +83,11 @@
             <td><%= row.totalHour%></td>
             <td><%= row.total%></td>
           </tr>
-          <% }) %>
+          <% }) }else{ %>
+            <tr>
+              <td colspan="6">No Records Found</td>
+            </tr>
+            <% } %>
 
         </tbody>
       </table>
